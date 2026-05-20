@@ -1,11 +1,10 @@
 ﻿using Genetic_rockets.Core.Entities;
 using Genetic_rockets.Core.Genetics;
-using SmartRockets.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Windows;
 
-namespace SmartRockets.Core.Genetics
+namespace Genetic_Rockets.Core.Genetics
 {
     public class Population
     {

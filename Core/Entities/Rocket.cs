@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace Genetic_rockets.Core.Entities
 {
-    class Rocket
+    public class Rocket
     {
         // Fyzikální vlastnosti
         public Point Position { get; private set; }

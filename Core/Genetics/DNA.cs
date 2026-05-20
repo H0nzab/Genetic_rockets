@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace Genetic_rockets.Core.Genetics
 {
-    class DNA
+    public class DNA
     {
         // Samotné geny
         // Vektor je vestavěný
