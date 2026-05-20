@@ -53,13 +53,21 @@ namespace Genetic_Rockets.Core.Genetics
 
             // fitness populace
             double totalFitness = 0;
+            Rocket bestRocket = Rockets[0];
+
             foreach (var rocket in Rockets)
             {
                 totalFitness += rocket.Fitness;
+                if (rocket.Fitness > bestRocket.Fitness)
+                {
+                    bestRocket = rocket;
+                }
             }
 
+            newRockets.Add(new Rocket(_startPoint, bestRocket.Dna));
+
             // křížení
-            for (int i = 0; i < _populationSize; i++)
+            for (int i = 1; i < _populationSize; i++)
             {
                 DNA parentA = SelectParent(totalFitness);
                 DNA parentB = SelectParent(totalFitness);

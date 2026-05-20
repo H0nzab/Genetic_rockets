@@ -34,7 +34,7 @@ namespace Genetic_rockets.Core.Genetics
 
         private Vector GenerateRandomVector()
         {
-            double angle = _random.NextDouble() * Math.PI * 2; // Úhel v radiánech
+            double angle = _random.NextDouble() * Math.PI * 2;
             return new Vector(Math.Cos(angle) * _maxForce, Math.Sin(angle) * _maxForce);
         }
 
@@ -44,12 +44,11 @@ namespace Genetic_rockets.Core.Genetics
             Vector[] childGenes = new Vector[Genes.Length];
 
             // Náhodně zvolíme bod zlomu
-            int midpoint = _random.Next(Genes.Length);
+            //int midpoint = _random.Next(Genes.Length);
 
             for (int i = 0; i < Genes.Length; i++)
             {
-                // Polovina genů od jednoho rodiče, polovina od druhého
-                if (i > midpoint)
+                if (_random.NextDouble() < 0.5)
                 {
                     childGenes[i] = Genes[i];
                 }
