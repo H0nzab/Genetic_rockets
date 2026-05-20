@@ -8,6 +8,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.IO;
+using System.Text;
+using Microsoft.Win32;
 
 namespace Genetic_rockets
 {
@@ -122,6 +125,71 @@ namespace Genetic_rockets
             }
 
             GraphCanvas.Children.Add(graphLine);
+        }
+
+        private void ExportButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Textové soubory (*.txt)|*.txt|Všechny soubory (*.*)|*.*",
+                FileName = $"SmartRockets_Export_{DateTime.Now:yyyyMMdd_HHmm}.txt",
+                Title = "Uložit statistiky simulace"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    // === HLAVIČKA ===
+                    sb.AppendLine("==================================================");
+                    sb.AppendLine($"   MĚŘENÍ SIMULACE SMART ROCKETS - {DateTime.Now}");
+                    sb.AppendLine("==================================================");
+                    sb.AppendLine();
+
+                    // === NASTAVENÍ CONFIGU ===
+                    sb.AppendLine("--- AKTUÁLNÍ KONFIGURACE (HYPERPARAMETRY) ---");
+                    sb.AppendLine($"Velikost populace:  {Config.PopulationSize}");
+                    sb.AppendLine($"Životnost rakety:   {Config.Lifespan} ticků");
+                    sb.AppendLine($"Maximální síla:     {Config.MaxForce}");
+                    sb.AppendLine($"Míra mutace:        {Config.MutationRate * 100} %");
+                    sb.AppendLine($"Bonus za cíl:       {Config.TargetBonus}x");
+                    sb.AppendLine($"Penalizace za smrt: {Config.CrashPenalty}x");
+                    sb.AppendLine();
+
+                    // === GLOBÁLNÍ STATISTIKY ===
+                    sb.AppendLine("--- SOUHRNNÉ VÝSLEDKY ---");
+                    sb.AppendLine($"Celkový počet generací: {_successHistory.Count}");
+
+                    if (_successHistory.Count > 0)
+                    {
+                        int maxSuccess = _successHistory.Max();
+                        double avgSuccess = _successHistory.Average();
+
+                        sb.AppendLine($"Nejlepší výsledek:      {maxSuccess} raket v cíli ({Math.Round((maxSuccess / (double)Config.PopulationSize) * 100, 1)} %)");
+                        sb.AppendLine($"Průměrně v cíli:        {Math.Round(avgSuccess, 2)} raket na generaci");
+                    }
+                    sb.AppendLine();
+
+                    // === DETAILNÍ LOG PO GENERACÍCH ===
+                    sb.AppendLine("--- HISTORIE GENERACÍ ---");
+                    sb.AppendLine("Generace\tPočet raket v cíli");
+
+                    for (int i = 0; i < _successHistory.Count; i++)
+                    {
+                        sb.AppendLine($"{i + 1}\t{_successHistory[i]}");
+                    }
+
+                    File.WriteAllText(saveFileDialog.FileName, sb.ToString());
+
+                    MessageBox.Show("Data byla úspěšně exportována!", "Export dokončen", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Při ukládání souboru došlo k chybě:\n{ex.Message}", "Chyba exportu", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }
