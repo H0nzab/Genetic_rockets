@@ -68,12 +68,12 @@ namespace Genetic_rockets.Core.Entities
             // Reward
             if (HasCompleted)
             {
-                Fitness *= 5.0;
+                Fitness *= Config.TargetBonus;
             }
             // Penalizace
             if (IsDead)
             {
-                Fitness *= 0.1;
+                Fitness *= Config.CrashPenalty;
             }
         }
     }

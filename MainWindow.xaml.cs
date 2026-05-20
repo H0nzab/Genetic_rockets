@@ -1,10 +1,12 @@
-﻿using Genetic_rockets.Core.Entities;
+﻿using Genetic_rockets.Core;
+using Genetic_rockets.Core.Entities;
 using Genetic_rockets.Core.Simulation;
+using Genetic_Rockets.Core;
 using Genetic_Rockets.Core.Genetics;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using System.Linq;
 using System.Windows.Shapes;
 
 namespace Genetic_rockets
@@ -15,7 +17,6 @@ namespace Genetic_rockets
         private Population _population;
 
         private int _tick = 0;
-        private readonly int _lifespan = 300;
 
         private readonly List<int> _successHistory = new List<int>();
 
@@ -37,8 +38,13 @@ namespace Genetic_rockets
 
             Point startPoint = new Point(400, 550);
 
-            double mutation_rate = 0.01;
-            _population = new Population(150, _lifespan, 0.5, mutation_rate, startPoint);
+            _population = new Population(
+            Config.PopulationSize,
+            Config.Lifespan,
+            Config.MaxForce,
+            Config.MutationRate,
+            startPoint
+        );
 
             MainRenderer.SimWorld = _world;
             MainRenderer.SimPopulation = _population;
@@ -46,7 +52,7 @@ namespace Genetic_rockets
 
         private void GameLoop(object sender, EventArgs e)
         {
-            if (_tick < _lifespan)
+            if (_tick < Config.Lifespan)
             {
                 int currentSuccessCount = 0;
 
@@ -81,7 +87,7 @@ namespace Genetic_rockets
             }
 
             GenerationText.Text = $"Generace: {_population.Generation}";
-            TickText.Text = $"Životnost: {_tick} / {_lifespan}";
+            TickText.Text = $"Životnost: {_tick} / {Config.Lifespan}";
 
             MainRenderer.InvalidateVisual();
         }
@@ -100,7 +106,7 @@ namespace Genetic_rockets
 
             double canvasWidth = 150;
             double canvasHeight = 60;
-            double maxRockets = 150;
+            double maxRockets = Config.PopulationSize;
 
             double stepX = canvasWidth / Math.Max(1, _successHistory.Count - 1);
 
