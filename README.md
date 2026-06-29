@@ -41,7 +41,7 @@ Evoluce v programu funguje na základě následujících mechanismů:
 
 ## Návod k použití
 
-1. **Spuštění**: Program nevyžaduje žádné složité nastavování. Stačí aplikaci zkompilovat a spustit. Simulace běží automaticky.
+1. **Spuštění**: Program nevyžaduje žádné složité nastavování. Stačí aplikaci zkompilovat a spustit soubor MainWindow.xaml.cs. Simulace pak běží automaticky.
 2. **Sledování evoluce**: V hlavním okně můžete sledovat, jak se rakety snaží obletět překážku. V horní části okna se zobrazuje aktuální číslo generace, počet zbývajících ticků a aktuální počet raket v cíli.
 3. **Graf úspěšnosti**: V levém panelu se s každou další generací překresluje zelený graf, který ukazuje vývoj úspěšnosti populace v čase.
 4. **Export dat**: V levém panelu se nachází tlačítko "Exportovat statistiky". Po jeho stisknutí se otevře dialogové okno pro uložení `.txt` souboru. Tento soubor obsahuje všechny nastavené hyperparametry simulace a detailní log historie generací, což se dá použít pro následnou analýzu dat.
